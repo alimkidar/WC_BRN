@@ -1,4 +1,3 @@
-time_start = time.time()
 print('Memulai')
 from nltk.collocations import *
 import nltk
@@ -6,7 +5,7 @@ from collections import Counter
 import pandas as pd
 import time
 
-
+time_start = time.time()
 
 # ----------------------- DEFINISI FUNGSI ------------------------------
 def filter_words(sentence):
