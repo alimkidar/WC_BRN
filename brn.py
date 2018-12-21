@@ -71,17 +71,16 @@ for index, row in dfconvo.iterrows():
 	tokens_filter = filter_words(conversation)
 	#Kode dibawah untuk pake stopword
 	#tokens_stopword = stopword(conversation, 'stopwords.csv', 'words')
+
+	# tokens = convo yang sudah di tokenize menjadi UNIGRAM (list)
+	# bigrams = convo yang sudah di pecah menjadi BIGRAM (list)
 	tokens = tokens_filter.split()
 
 	bigrams = list(nltk.bigrams(conversation.split()))
 	bigrams =  " ".join(map("".join,bigrams))
 	bigrams = filter_words(bigrams).split()
 
-	# ----------------------------------------------
-	#	DICTIONARY UNIGRAM DAN BIGRAM TERBALIK!!!!
-	#dictionary_bigram[alias] = keyword
-	#dictionary[keyword] = alias
-	# ----------------------------------------------
+
 
 	#Hasgtag Mention Ectractor
 	caption_clean = conversation.replace('#',' #').replace('@', ' @').replace('%','')
@@ -97,25 +96,30 @@ for index, row in dfconvo.iterrows():
 			list_alias.append(a)
 			list_alias_per_convo.append(a)
 			conversation = conversation.replace(word,' ')
-
+	# ----------------------------------------------
+	#	DICTIONARY UNIGRAM DAN BIGRAM TERBALIK!!!!
+	#dictionary_bigram[alias] = keyword
+	#dictionary[keyword] = alias
+	# ----------------------------------------------
 	for keyword in dictionary:
 		if keyword in tokens:
 			list_alias_per_convo.append(dictionary[keyword])
 			list_alias.append(dictionary[keyword])
 			list_alias_unigram.append(dictionary[keyword])
-	for keyword in dictionary_bigram:
-		if keyword in bigrams:
-			list_alias_per_convo.append(keyword)
-			list_alias.append(keyword)
-			list_alias_bigram.append(keyword)
 
-		for i in dictionary_bigram:
-			if i in tokens:
-				list_alias_per_convo.append(keyword)
-				list_alias.append(keyword)
-				list_alias_bigram.append(keyword)
+	for alias in dictionary_bigram:
+		if alias in bigrams:
+			list_alias_per_convo.append(alias)
+			list_alias.append(alias)
+			list_alias_bigram.append(alias)
 
-	for i in range(len(tokens) - 1):
+	for alias in dictionary_bigram:
+		if alias in tokens:
+			list_alias_per_convo.append(alias)
+			list_alias.append(alias)
+			list_alias_bigram.append(alias)
+
+	for i in range(len(tokens)):
 		df_dirty_word = df_dirty_word.append(pd.DataFrame([['unigram',tokens[i]]],columns=['type','word']))
 
 	bigram_all = {}
