@@ -94,20 +94,20 @@ for index, row in dfconvo.iterrows():
 	bigrams =  " ".join(map("".join,bigrams))
 	bigrams = filter_words(bigrams).split()
 
-
-
 	#Hasgtag Mention Ectractor
 	caption_clean = filter_words(conversation).replace('#',' #').replace('@', ' @').replace('%','')
 	words = caption_clean.split()
 	for word in words:
 		if len(word.replace('#','').replace('@','')) != 0:
 			if '#' in word:
-				a = word.replace("#","")
+				#a = word.replace("#","")
+				a = word
 				list_alias.append(a)
 				list_alias_per_convo.append(a)
 				conversation = conversation.replace(word,' ')
 			if '@' in word:
-				a = word.replace("@","")
+				#a = word.replace("@","")
+				a = word
 				list_alias.append(a)
 				list_alias_per_convo.append(a)
 				conversation = conversation.replace(word,' ')
