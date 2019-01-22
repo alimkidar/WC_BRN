@@ -1,6 +1,6 @@
 print('Memulai')
-#from nltk.collocations import *
-#import nltk
+from nltk.collocations import *
+import nltk
 from collections import Counter
 import pandas as pd
 import time
@@ -13,7 +13,13 @@ def filter_words(sentence):
 
 	for c in char:
 		sentence = sentence.replace(c,' ')
-	sentence = sentence.replace('"',' ').replace("\n"," ").replace("/"," ").replace("'"," ").replace("\\"," ").replace("  "," ")
+	sentence = sentence.replace('"',' ')
+	sentence = sentence.replace("\n"," ")
+	sentence = sentence.replace("/"," ")
+	sentence = sentence.replace("'"," ")
+	sentence = sentence.replace("\\"," ")
+	sentence = sentence.replace("  "," ")
+
 	return sentence
 
 def stopword(sentence, file_csv, column):
@@ -47,9 +53,8 @@ def quantilizing_2(df_input, fieldname_input, fieldname_output):
 	df_input_quantile = df_input.quantile([0.8])
 	q1 = df_input_quantile.iloc[0][fieldname_input]
 
-	df_input[fieldname_output] = df_input[fieldname_input].apply(lambda x: 1 if (x > q1) else 2 if (x <= q1) else 'Error')
+	df_input[fieldname_output] = df_input[fieldname_input].apply(lambda x: 1 if (x >= q1) else 2 if (x < q1) else 'Error')
 	return df_input
-	
 print('Load Convo')
 
 # ----------------------- LOAD DATA ------------------------------
@@ -61,11 +66,6 @@ df_dirty_word_bigram = pd.DataFrame()
 df_clean_word = pd.DataFrame()
 df_word_extraction = pd.DataFrame()
 df_brn_input = pd.DataFrame()
-
-# Load stopword
-f = open('words.txt', 'r')
-content = f.read()
-stopwords = content.split(',')
 
 bigram = {}
 
@@ -102,6 +102,7 @@ for index, row in dfdict.iterrows():
 	else:
 		if keyword not in dictionary:
 				dictionary[keyword] = alias
+
 
 # ----------------------- MENGOLAH DATA ------------------------------
 # Looping pengolahan convo
@@ -147,6 +148,11 @@ for index, row in dfconvo.iterrows():
 	# bigrams = convo yang sudah di pecah menjadi BIGRAM (list)
 	tokens = tokens_filter.split()
 
+	# PERLU DIREVISI
+	bigrams = list(nltk.bigrams(conversation.split()))
+	bigrams =  " ".join(map("".join,bigrams))
+	bigrams = filter_words(bigrams).split()
+
 	#BIGRAM and more-gram!!!!!!!!!!!!!
 	# without space
 	text = anti_space(conversation)
@@ -157,6 +163,9 @@ for index, row in dfconvo.iterrows():
 			list_alias_per_convo.append(alias)
 			list_alias.append(alias)
 			list_alias_bigram.append(alias)
+
+
+
 
 	# ----------------------------------------------
 	#	DICTIONARY UNIGRAM DAN BIGRAM TERBALIK!!!!
@@ -169,11 +178,20 @@ for index, row in dfconvo.iterrows():
 			list_alias.append(dictionary[keyword])
 			list_alias_unigram.append(dictionary[keyword])
 			#print(keyword, '=>',  dictionary[keyword])
+	for alias in dictionary_bigram:
+		if alias in bigrams:
+			list_alias_per_convo.append(alias)
+			list_alias.append(alias)
+			list_alias_bigram.append(alias)
+		elif alias in tokens:
+			list_alias_per_convo.append(alias)
+			list_alias.append(alias)
+			list_alias_bigram.append(alias)
 
 	for i in range(len(tokens)):
-		word = tokens[i]
-		if word not in stopwords and len(word) > 2:
-			list_dirty_word_list.append()
+		list_dirty_word_list.append(tokens[i])
+
+
 	bigram_all = {}
 	hitung = 0
 
@@ -192,18 +210,17 @@ for index, row in dfconvo.iterrows():
 					#f.write(linef)
 					dict_word_extraction.append({'1_conversation': conversation_raw, '2_w1': w1, '3_w2': w2, '4_w1w2': w1 + w2})
 					#df_word_extraction = df_word_extraction.append(pd.DataFrame([[conversation_raw, w1, w2, w1 + w2]],columns=['conversation','w1','w2','w1w2']))
-	print('convo-' + str(hit) + ' ' + str(time.time() - time_start) + ' detik.' )
+	#print(str(hit) + '. ' + str(time.time() - time_start) + ' detik.' )
 	hit += 1
 
-
+#f.close()
 # ----------------------- PRINT INTO CSV FILE ------------------------------
 # DATAFRAME TRULY KOTOR: Dirty means all words in convo
 #df_dirty_word['word'] = pd.Series(list_dirty_word_list).values
-#stopword
-
 df_dirty_word = pd.DataFrame.from_dict(list_dirty_word_list)
 df_dirty_word.columns = ['word']
 # DATAFRAME MATCH KEYWORD
+#df_clean_word_raw['word'] = pd.Series(list_alias).values
 df_clean_word_raw = pd.DataFrame.from_dict(list_alias)
 df_clean_word_raw.columns = ['word']
 
@@ -212,7 +229,6 @@ df_dirty_word_count = pd.DataFrame(df_dirty_word['word'].apply(lambda x: x.repla
 df_dirty_word_count = df_dirty_word_count.groupby(['word']).size().reset_index(name='counts')
 df_dirty_word_count_1000 = df_dirty_word_count.nlargest(1000, 'counts')
 df_dirty_word_count_1000.to_csv('dirty_word_1000.csv')
-print('dirty_word_1000.csv')
 
 # Membuat CSV Clean Word (@# exclude) ============================================
 df_clean_word_count = pd.DataFrame(df_clean_word_raw['word'].apply(lambda x: x.replace("#","").replace("@","") if ("#" in x or "@" in x) else x))
@@ -220,7 +236,7 @@ df_clean_word_count = df_clean_word_count.groupby(['word']).size().reset_index(n
 df_clean_word_count_150 = df_clean_word_count.nlargest(150, 'counts')
 df_clean_word = quantilizing_5(df_clean_word_count_150,'counts','class')
 df_clean_word_count_150.to_csv('clean_word_150.csv')
-print('clean_word_150.csv')
+
 
 
 # Membuat CSV Clean Word (@# include)
@@ -229,21 +245,27 @@ df_clean_word_include_100 = df_clean_word_include.nlargest(100, 'counts')
 df_clean_word_include_100['note'] = df_clean_word_include_100['word'].apply(lambda x: 'hashtag' if ("#" in x) else 'mention' if ("@" in x) else 'keyword')
 df_clean_word_include_100.to_csv('clean_word_100_include.csv')
 
-print('Membuat CSV clean_word_100_include.csv Selesai. ' + str(time.time() - time_start) + ' detik.' )
+
+#df_filtered = df[(df.w1_kategori == 1) & (df.w2_kategori == 1) & (df.w1w2_kategori == 1) & (df.edge_kategori == 1)]
+
+print('Membuat CSV Dirty Word Selesai. ' + str(time.time() - time_start) + ' detik.' )
+
+# Membuat 
+
 
 # MEMBUAT CSV CLEAN WORD
 counter = Counter(list_alias)
-print('counter selesai')
-#MULAI LAMA!
+
+print('Membuat CSV Clean Word Selesai. ' + str(time.time() - time_start) + ' detik.' )
+
 df_word_extraction = pd.DataFrame.from_dict(dict_word_extraction)
-print('dict to df')
+
 df_word_extraction_count = df_word_extraction.groupby(['4_w1w2','2_w1','3_w2']).size().reset_index(name='counts')
-print('hitung count')
+
+print('Membuat CSV Word Extractor Selesai. ' + str(time.time() - time_start) + ' detik.' )
 # Loop perhitungan Edge BRN
 dict_brn_input = []
 hit_loop_brn = 0
-print('mulai loop')
-
 for index, row in df_word_extraction_count.iterrows():
 	w1 = row['2_w1']
 	w2 = row['3_w2']
@@ -254,10 +276,9 @@ for index, row in df_word_extraction_count.iterrows():
 	edge = (w1_counts * w2_counts) / w1w2_counts
 	dict_brn_input.append({'1_w1': w1, '2_w1_counts': w1_counts, '3_w2': w2, '4_w2_counts':w2_counts, '5_w1w2': w1w2, '6_w1w2_counts': w1w2_counts, '7_edge': edge })
 	
-	print('loop ke ' + str(hit_loop_brn) + ' ' + str(time.time() - time_start) + ' detik.')
+	#print('loop ke ' + str(hit_loop_brn) + ' ' + str(time.time() - time_start) + ' detik.')
 	hit_loop_brn += 1
 	#df_brn_input = df_brn_input.append(pd.DataFrame([[ w1, w1_counts, w2, w2_counts, w1w2, w1w2_counts, edge]],columns=['w1', 'w1_counts','w2', 'w2_counts','w1w2', 'w1w2_counts','edge'])) 
-print('Loop selesai')
 df_brn_input = pd.DataFrame.from_dict(dict_brn_input)
 df_brn_input.columns = ['w1', 'w1_counts', 'w2', 'w2_counts', 'w1w2', 'w1w2_counts', 'edge']
 
@@ -266,15 +287,10 @@ df_brn_input = quantilizing_2(df_brn_input,'w1_counts','class_w1')
 df_brn_input = quantilizing_2(df_brn_input,'w2_counts','class_w2')
 df_brn_input = quantilizing_2(df_brn_input,'w1w2_counts','class_w1w2')
 df_brn_input = quantilizing_2(df_brn_input,'edge','class_edge')
-
+df_brn_input.to_csv('BRN_Input_kotor.csv')
 
 df_brn_input_filtered = df_brn_input[(df_brn_input.class_w1 == 1) & (df_brn_input.class_w2 == 1) & (df_brn_input.class_w1w2 == 1) & (df_brn_input.class_edge == 1)]
-df_brn_input_filtered.to_csv('BRN_Input_kotor.csv')
-
 df_brn_input_filtered_200 = df_brn_input_filtered.nlargest(200, 'edge')
-df_brn_input_filtered_200 = quantilizing_5(df_brn_input_filtered_200,'w1_counts','normalisasi_w1_counts')
-df_brn_input_filtered_200 = quantilizing_5(df_brn_input_filtered_200,'w2_counts','normalisasi_w2_counts')
-df_brn_input_filtered_200 = quantilizing_5(df_brn_input_filtered_200,'w1w2_counts','normalisasi_w1w2_counts')
 df_brn_input_filtered_200 = quantilizing_5(df_brn_input_filtered_200,'edge','normalisasi_edge')
 df_brn_input_filtered_200.to_csv('BRN_Input.csv')
 print('Membuat CSV BRN Selesai. ' + str(time.time() - time_start) + ' detik.' )
