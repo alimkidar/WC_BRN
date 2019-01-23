@@ -1,33 +1,117 @@
 ﻿idKws,keywords,alias
-1,100kota1bahasa,100kota1bahasa
-2,a mild,amild
-3,a mild menthol burst,amild
-4,acreate,acreate
-5,amild,amild
-6,amildlep,amild
-7,amildmentholburst,amild
-8,amildplatinum,amild
-9,amildzone,amild
-10,asoundrenaline,soundrenaline
-11,avolution,avolution
-12,avolution menthol,avolution
-13,avolution mild,avolution
-14,avolutionmenthol,avolution
-15,avolutionmild,avolution
-16,iklanamild,amild
-17,lepamild,amild
-18,ridetosoundrenaline,soundrenaline
-19,roadtosoundrenaline,soundrenaline
-20,roadtosoundrenaline2017,soundrenaline
-21,roadtosoundrenalinejkt,soundrenaline
-22,roadtosoundrenalinemakassar,soundrenaline
-23,sampoernamild,amild
-24,soundrenaline,soundrenaline
-25,soundrenaline2017,soundrenaline
-26,soundrenaline2018,soundrenaline
-27,soundrenalinecamp,soundrenaline
-28,soundrenalineofficialmerchandise,soundrenaline
-29,sampoernamildplatinum,amild
-30,thunderdome,soundrenaline
-31,thunderdomesoundrenaline,soundrenaline
-32,thunderdomesoundrenaline2018,soundrenaline
+1,bersaudara itu soal rasa,bersaudaraitusoalrasa
+3,bersaudara soal rasa,bersaudaraitusoalrasa
+4,bersaudaraitusoalrasa,bersaudaraitusoalrasa
+5,bersaudarasoalrasa,bersaudaraitusoalrasa
+6,cowo lebih tahu,cowolebihtau
+8,Cowo lebih tau,cowolebihtau
+10,cowo lebih tau ,cowolebihtau
+11,cowo u mild,cowoumild
+13,cowo u mild ,cowoumild
+14,Cowo U Mild Lebih Tau,cowolebihtau
+16,cowo umild,cowoumild
+18,cowo u-mild,cowoumild
+19,cowo umild ,cowoumild
+20,cowok lebih tahu,cowolebihtau
+22,cowok lebih tau,cowolebihtau
+24,cowok lebih tau ,cowolebihtau
+25,cowok u mid,cowoumild
+26,cowok u mild,cowoumild
+28,cowok u mild ,cowoumild
+29,cowok umild,cowoumild
+31,cowok u-mild,cowoumild
+32,cowok umild lebih tau,cowolebihtau
+33,cowoklebihtahu,cowolebihtau
+34,cowoklebihtau,cowolebihtau
+35,cowoklebihtau ,cowolebihtau
+36,cowokumild,cowoumild
+37,cowokumild ,cowoumild
+38,cowokumildlebihtau,cowolebihtau
+39,cowolebihtahu,cowolebihtau
+40,cowolebihtau,cowolebihtau
+41,cowoumild,cowoumild
+42,cowoumildlebihtau,cowolebihtau
+43,kapanseriusbersenangsenang,kapanseriusbersenangsenang
+44,kawan parjo,kawanparjo
+45,kawanparjo,kawanparjo
+47,kode cowo,kodecowo
+48,kode cowo ,kodecowo
+49,kode cowok,kodecowo
+51,kode cowok ,kodecowo
+52,kodecowo,kodecowo
+53,kodecowok,kodecowo
+54,kodecowok ,kodecowo
+55,man know better,manknowbetter
+56,man knows better,manknowbetter
+57,manknowbetter,manknowbetter
+58,manknowsbetter,manknowbetter
+59,men know better,manknowbetter
+60,men knows better,manknowbetter
+61,menknowbetter,manknowbetter
+62,menknowsbetter,manknowbetter
+63,parjo_id,parjoid
+64,parjo_id ,parjoid
+65,parjoid,parjoid
+66,respect nomer satu,respeknomorsatu
+67,respect nomor satu,respeknomorsatu
+68,respectnomorsatu,respeknomorsatu
+69,respectriding,respekriding
+70,respek nomor satu,respeknomorsatu
+72,respek nomor satu ,respeknomorsatu
+73,respek riding,respekriding
+74,respeknomersatu,respeknomorsatu
+75,respeknomorsatu,respeknomorsatu
+76,respeknomorsatu ,respeknomorsatu
+77,respekriding,respekriding
+78,road to unity pekanbaru,unitypitstop
+79,road to unity pitstop,unitypitstop
+80,road to unity samarinda,unitypitstop
+81,roadtounitypekanbaru,unitypitstop
+82,roadtounitypitstop,unitypitstop
+83,roadtounitysamarinda,unitypitstop
+84,sampoerna u,umild
+86,sampoerna u ,umild
+87,sampoernau,umild
+88,saudara itu soal rasa,saudaraitusoalrasa
+89,saudaraitusoalrasa,saudaraitusoalrasa
+90,seriusbersenangsenang,kapanseriusbersenangsenang
+91,tahu menghargai karya seni,tahumenghargaikaryaseni
+92,tahumenghargaikaryaseni,tahumenghargaikaryaseni
+93,tau menghargai karya seni,tahumenghargaikaryaseni
+94,taumenghargaikaryaseni,tahumenghargaikaryaseni
+95,u bold filter,ubold
+96,u mild,umild
+98,u mild ,umild
+99,ubold,ubold
+100,uboldfilter,ubold
+101,umild,umild
+102,u-mild,umild
+103,umild ,umild
+104,u-mild ,umild
+105,umildcool,umild
+106,unity pekanbaru,unitypitstop
+107,unity pitsto ppekanbaru,unitypitstop
+108,unity pitstop,unitypitstop
+110,unity pitstop ,unitypitstop
+111,unity pitstop 2018,unitypitstop
+112,unity pitstop samarinda,unitypitstop
+114,unity pitstop x parjo,unitypitstop
+116,unity samarinda,unitypitstop
+117,unity team,unityteam
+118,unity team ,unityteam
+119,unity_pitstop,unitypitstop
+120,unitypekanbaru,unitypitstop
+121,unitypitstop,unitypitstop
+122,unitypitstop ,unitypitstop
+123,UnityPitstop2018,unitypitstop
+124,unitypitstop2018 ,unitypitstop
+125,unitypitstoppekanbaru,unitypitstop
+126,unitypitstopsamarinda,unitypitstop
+127,unitypitstopxparjo,unitypitstop
+128,unitypitstopxparjo ,unitypitstop
+129,unitypoint,unitypoint
+130,unitysamarinda,unitypitstop
+131,unityteam,unitypitstop
+132,serius bersenang senang,kapanseriusbersenangsenang
+133,unity point,unitypoint
+134,sheilaon7,sheilaon7
